@@ -40,4 +40,4 @@ Some of the estimated subtasks:
 
 ### Réel 
 * Voir comment récuperer les données de l'optoforce via python et créer une classe pour faciliter son utilisation
-* Voir comment commander le robot réel en python et créer une classe pour faciliter son utilisation
+* Voir comment commander le robot réel en python (voir [lib ur_rtde](https://sdurobotics.gitlab.io/ur_rtde/examples/examples.html)) et créer une classe pour faciliter son utilisation
