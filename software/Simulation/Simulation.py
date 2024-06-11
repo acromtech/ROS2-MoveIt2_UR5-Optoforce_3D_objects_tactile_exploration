@@ -71,7 +71,7 @@ class Simulation:
         p.setGravity(0, 0, -9.81)
         self.planeId = p.loadURDF("plane.urdf", [0, 0, 0], useFixedBase=self.fixedBase)
         
-        path = os.getcwd()+"/Mechanics/urdf"
+        path = os.getcwd()+"/mechanics/urdf"
         path = path.replace("\\", "/")
         print(path)
         p.setAdditionalSearchPath(path)
@@ -302,4 +302,115 @@ class Simulation:
         plt.title('Joint Positions Over Time')
         plt.legend()
         plt.show()
+
+    def get_end_effector_forces(self):
+        """
+        Retrieve force and torque data from the end effector.
+        """
+        joint_states = p.getJointStates(self.robot_id, range(self.numJoint))
+        torques = [state[3] for state in joint_states]  # Retrieve torque information from joint states
+        return torques
     
+    def get_contact_forces(self):
+        """
+        Retrieve contact forces applied to the end effector.
+        """
+        contacts = p.getContactPoints(bodyA=self.robot_id)
+        forces = []
+        for contact in contacts:
+            forces.append(contact[9])  # Normal force
+        return forces
+
+    def print_end_effector_forces(self):
+        torques = self.get_end_effector_forces()
+        print(f"Torques at joints: {torques}")
+        forces = self.get_contact_forces()
+        print(f"Contact forces: {forces}")
+
+    def get_contact_info(self):
+        contact_points = p.getContactPoints(bodyA=self.robot_id)
+        contact_info = []
+        for point in contact_points:
+            info = {
+                "contact_position_on_a": point[5],
+                "contact_position_on_b": point[6],
+                "contact_normal_on_b": point[7],
+                "contact_distance": point[8],
+                "normal_force": point[9],
+                "lateral_friction_force_1": point[10],
+                "lateral_friction_force_2": point[12],
+            }
+            contact_info.append(info)
+        return contact_info
+    
+    def add_cube(self, position, size=1.0):
+        """
+        Add a cube to the simulation.
+
+        Parameters:
+            position (list): [x, y, z] coordinates of the cube's position.
+            size (float, optional): Size of the cube. Default is 1.0.
+        """
+        visual_shape_id = p.createVisualShape(shapeType=p.GEOM_BOX, halfExtents=[size/2, size/2, size/2])
+        collision_shape_id = p.createCollisionShape(shapeType=p.GEOM_BOX, halfExtents=[size/2, size/2, size/2])
+        cube_id = p.createMultiBody(baseMass=1,
+                                    baseInertialFramePosition=[0, 0, 0],
+                                    baseCollisionShapeIndex=collision_shape_id,
+                                    baseVisualShapeIndex=visual_shape_id,
+                                    basePosition=position)
+        return cube_id
+
+    def add_sphere(self, position, radius=0.5):
+        """
+        Add a sphere to the simulation.
+
+        Parameters:
+            position (list): [x, y, z] coordinates of the sphere's position.
+            radius (float, optional): Radius of the sphere. Default is 0.5.
+        """
+        visual_shape_id = p.createVisualShape(shapeType=p.GEOM_SPHERE, radius=radius)
+        collision_shape_id = p.createCollisionShape(shapeType=p.GEOM_SPHERE, radius=radius)
+        sphere_id = p.createMultiBody(baseMass=1,
+                                      baseInertialFramePosition=[0, 0, 0],
+                                      baseCollisionShapeIndex=collision_shape_id,
+                                      baseVisualShapeIndex=visual_shape_id,
+                                      basePosition=position)
+        return sphere_id
+
+    def add_cylinder(self, position, radius=0.5, height=1.0):
+        """
+        Add a cylinder to the simulation.
+
+        Parameters:
+            position (list): [x, y, z] coordinates of the cylinder's position.
+            radius (float, optional): Radius of the cylinder. Default is 0.5.
+            height (float, optional): Height of the cylinder. Default is 1.0.
+        """
+        visual_shape_id = p.createVisualShape(shapeType=p.GEOM_CYLINDER, radius=radius, length=height)
+        collision_shape_id = p.createCollisionShape(shapeType=p.GEOM_CYLINDER, radius=radius, height=height)
+        cylinder_id = p.createMultiBody(baseMass=1,
+                                        baseInertialFramePosition=[0, 0, 0],
+                                        baseCollisionShapeIndex=collision_shape_id,
+                                        baseVisualShapeIndex=visual_shape_id,
+                                        basePosition=position)
+        return cylinder_id
+
+
+# Initialize the simulation
+sim = Simulation("UR5_simplified/urdf/UR5_simplified.urdf", startPos=[0,0,0], fixedBase=True, viewMode=False)
+
+# Add a cube to the simulation
+cube_id = sim.add_cube(position=[0.5, 0.5, 0.5], size=0.2)
+
+# Calculate inverse kinematics to move the end effector to the cube's position
+target_position = [0.5, 0.5, 0.5]
+joint_positions = sim.calculate_inverse_kinematics(target_position)
+
+# Move the robot to the calculated joint positions
+sim.move_joints(joint_positions)
+
+# Detect contact/collision
+contact_points = p.getContactPoints(bodyA=sim.robot_id, bodyB=cube_id)
+print(f"Contact points: {contact_points}")
+
+sim.view_mode()
