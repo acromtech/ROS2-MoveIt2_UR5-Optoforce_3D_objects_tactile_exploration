@@ -31,3 +31,5 @@ colcon build --mixin release
 source ~/ws_moveit/install/setup.bash
 
 echo 'source ~/ws_moveit/install/setup.bash' >> ~/.bashrc
+
+ros2 launch moveit2_tutorials demo.launch.py
