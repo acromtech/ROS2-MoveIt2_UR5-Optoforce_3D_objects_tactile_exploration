@@ -41,3 +41,10 @@ Some of the estimated subtasks:
 ### Réel 
 * Voir comment récuperer les données de l'optoforce via python et créer une classe pour faciliter son utilisation
 * Voir comment commander le robot réel en python (voir [lib ur_rtde](https://sdurobotics.gitlab.io/ur_rtde/examples/examples.html)) et créer une classe pour faciliter son utilisation
+
+## Configuration du robot UR5
+
+*Piste que j'ai trouvé : [Lib officielle Universal Robots ROS2 Driver - branche Iron](https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver/tree/iron) et sa dépendance [Universal Robots Client Library](https://github.com/UniversalRobots/Universal_Robots_Client_Library#requirements)*
+
+Mais la façon la plus simple de configurer le robot d'Universal Robots (UR5) reste encore d'utiliser cette [video](https://www.youtube.com/watch?v=sUXOMnzmA0U) car le fichier URDF de l'UR5 est déjà inclu dans l'installation de ROS2. Il suffit donc juste de le configurer.
+
