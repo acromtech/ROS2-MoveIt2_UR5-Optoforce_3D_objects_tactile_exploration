@@ -399,18 +399,4 @@ class Simulation:
 # Initialize the simulation
 sim = Simulation("UR5_simplified/urdf/UR5_simplified.urdf", startPos=[0,0,0], fixedBase=True, viewMode=False)
 
-# Add a cube to the simulation
-cube_id = sim.add_cube(position=[0.5, 0.5, 0.5], size=0.2)
-
-# Calculate inverse kinematics to move the end effector to the cube's position
-target_position = [0.5, 0.5, 0.5]
-joint_positions = sim.calculate_inverse_kinematics(target_position)
-
-# Move the robot to the calculated joint positions
-sim.move_joints(joint_positions)
-
-# Detect contact/collision
-contact_points = p.getContactPoints(bodyA=sim.robot_id, bodyB=cube_id)
-print(f"Contact points: {contact_points}")
-
 sim.view_mode()
