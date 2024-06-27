@@ -26,3 +26,4 @@ with PyBulletClient() as client:
     client.remove_attached_collision_mesh('tip', {'robot': robot})
 
     time.sleep(1)
+
