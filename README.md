@@ -1,7 +1,5 @@
 # ROS2-MoveIt2 UR5-Optoforce 3D objects tactile exploration
 
-![](/doc/img/overview.gif)
-
 ## Introduction and Requirements
 ### Context and Motivation
 Tactile exploration of three-dimensional surfaces and objects is a critical task in various fields of robotics. Whether for industrial applications, medical use, or research, the ability to sense and manipulate objects accurately is essential. In this project, we use an Optoforce force sensor and a UR5 robotic arm to explore the surfaces of objects through touch. This sensor, mounted on the end-effector (EE) of the UR5, measures forces in three dimensions, providing valuable data for reconstructing the surface of the object in a 3D point cloud format.
