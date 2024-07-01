@@ -124,3 +124,10 @@ Due to various challenges, this part is not yet completed, but we plan to finish
 ## Conclusion
 In conclusion, our project aimed to develop a method for tactile exploration and 3D reconstruction of object surfaces using an Optoforce force sensor and a UR5 robotic arm. We successfully designed and fabricated a custom fixture, created detailed 3D models, and integrated these components into simulation environments using SolidWorks and ROS2 Iron with MoveIt2. Despite challenges with Pybullet compatibility and Optoforce sensor integration, we made significant strides in setting up simulations and developing initial algorithms in C++ for executing tasks within MoveIt2. Our future work will focus on refining the tactile exploration algorithm, improving simulation fidelity, and implementing collision display. Overall, our progress has laid a solid foundation for achieving precise and reliable tactile sensing, with potential applications in various fields of robotics.
 
+## Revelant documentations
+
+* [ROS2](https://docs.ros.org/en/iron/index.html)
+* [MoveIt2](https://moveit.picknik.ai/main/index.html)
+* [Compas_fab](https://compas.dev/compas_fab/0.22.0/examples/03_backends_ros/07_ros_create_urdf_ur5_with_measurement_tool.html)
+
+
